@@ -1,0 +1,83 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #34344A;
+    /* Couleur d'arrière-plan foncée */
+    color: #E8E8EA;
+    /* Texte Clair sur fond sombre */
+}
+
+#message-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 1em;
+}
+
+textarea {
+    width: 100%;
+    background-color: #2191fb;
+    /* Couleur de la zone d'entrée des messages */
+    color: #E8E8EA;
+    /* Texte Clair sur fond sombre */
+}
+
+.message {
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
+}
+
+.user {
+    background-color: #2191fb;
+    /* Couleur de la bulle des messages utilisateur */
+    border: 2px solid #1be7ff;
+}
+
+.assistant {
+    background-color: #1be7ff;
+    /* Couleur de la bulle des messages assistant */
+    border: 2px solid #2191fb;
+}
+
+button {
+    display: inline-block;
+    background-color: #7b38d8;
+    border-radius: 10px;
+    border: 4px double #cccccc;
+    color: #eeeeee;
+    text-align: center;
+    font-size: 28px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+}
+
+button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+button span:after {
+    content: "\00bb";
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+button:hover {
+    background-color: #f7c2f9;
+}
+
+button:hover span {
+    padding-right: 25px;
+}
+
+button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
