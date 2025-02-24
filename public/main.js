@@ -1,8 +1,10 @@
 const messageContainer = document.getElementById('message-container');
 const userInput = document.getElementById('user-input');
+const modelSelect = document.getElementById('model-select'); // Nouvelle ligne
 
 function sendMessage() {
     const userMessage = userInput.value.trim();
+    const selectedModel = modelSelect.value; // Récupère le modèle sélectionné par l'utilisateur
 
     if (userMessage !== '') {
         // Ajoute le message de l'utilisateur
@@ -14,17 +16,16 @@ function sendMessage() {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImVsYXNoIGluZmx1bCJ9.wB7WvDH42gRhUfLsT5nEGd9y-UaLkLQOoAjNp9iKu-zr' // Remplacez par un jeton d'authentification valide
+                'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImVsYXNoIGluZmx1YyJ9.wB7WvDH42gRhUfLsT5nEGd9y-UaLkLQOoAjNp9iKu-zr' // Remplacez par un jeton d'authentification valide
             },
-            body: JSON.stringify({ // Encapsulez les données dans un format JSON
+            body: JSON.stringify({ // Encapsule les données dans un format JSON
                 messages: [
                     { "role": "user", "content": userMessage }
                 ],
                 temperature: 0.7,
                 max_tokens: -1,
                 stream: false,
-                model: 'qwen2.5-coder-32b-instruct',
-                //model: 'TheBloke/Open_Gpt4_8x7B_v0.2-GGUF/open_gpt4_8x7b_v0.2.Q4_0.gguf' //  LM Studio
+                model: selectedModel, // Utilise le modèle sélectionné par l'utilisateur
             })
         })
         .then(response => response.json())
@@ -43,7 +44,7 @@ function addMessage(content, type) {
     if (type === 'user') {
         messageDiv.innerHTML = `<p>${content}</p>`;
     } else if (type === 'assistant') {
-        // Vérifiez si le message contient du code pour l'encadrer
+        // Vérifie si le message contient du code pour l'encadrer
         const formattedContent = formatCodeBlocks(content);
         messageDiv.innerHTML = `<p>${formattedContent}</p>`;
     }
@@ -68,4 +69,3 @@ function escapeHtml(unsafe) {
          .replace(/"/g, "&quot;")
          .replace(/'/g, "&#039;");
 }
-
