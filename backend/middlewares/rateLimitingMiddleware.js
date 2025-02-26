@@ -1,3 +1,4 @@
+//middlewares/rateLimitingMiddleware.js
 const rateLimit = require('express-rate-limit');
 
 // Middleware rate limiting (limite le nombre de requêtes par minute)

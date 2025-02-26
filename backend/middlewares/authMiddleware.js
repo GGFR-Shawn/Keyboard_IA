@@ -13,20 +13,20 @@ module.exports = (req, res, next) => {
         return next();
     }
 
-    // Récupérez le token du header de la requête
-    const token = req.header('x-access-token');
+    // Récupérez le token à partir des en-têtes
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-    // Si aucun token n'est fourni, renvoyez une erreur
     if (!token) {
-        return res.status(401).json({ auth: false, message: 'Aucun jeton fourni.' });
+        return res.status(401).json({ error: 'Access denied. No token provided.' });
     }
 
-    // Vérifiez la validité du token
-    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(500).json({ auth: false, message: 'Token invalide.' });
-        }
-        req.userId = decoded.id;
+    try {
+        // Vérifiez la validité du token
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
         next();
-    });
+    } catch (error) {
+        res.status(401).json({ error: 'Invalid token' });
+    }
 };
