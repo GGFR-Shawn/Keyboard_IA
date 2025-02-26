@@ -10,6 +10,11 @@ const { authMiddleware } = require('./middlewares/authMiddleware');
 
 const app = express();
 
+if (!process.env.JWT_SECRET || !process.env.MONGODB_URI) {
+    console.error('Missing environment variables');
+    process.exit(1);
+}
+
 // Connexion à MongoDB sans les options obsolètes
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log('Connexion à MongoDB réussie'))
