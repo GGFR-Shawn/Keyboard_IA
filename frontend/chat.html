@@ -1,0 +1,32 @@
+<!-- frontend/chat.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elysia votre IA conversationnelle</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Ajout d'un lien vers le fichier styles.css -->
+</head>
+<body>
+    <div id="message-container"></div>
+    
+    <div class="message user">
+        <p>
+            <label for="model-select">Sélectionnez un modèle : </label>
+            <select id="model-select">
+                <option value="mistral-nemo-instruct-2407">Conversationnel</option>
+                <option value="qwen2.5-coder-32b-instruct">Développeur</option>
+                <option value="mathstral-7b-v0.1">Mathématicien</option>
+                <option value="rag-ko-mixtral-7bx2-v2.0-i1">Correcteur/Traducteur</option>
+            </select>
+        </p>
+
+        <p>
+            <textarea id="user-input" placeholder="Comment puis-je vous aider ?"></textarea>
+            <button onclick="sendMessage()">Envoyé</button>
+        </p>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>

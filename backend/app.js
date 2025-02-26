@@ -3,9 +3,10 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const authRoutes = require('./routes/auth');
+const cookieParser = require('cookie-parser'); // Ajoutez ce middleware pour les cookies
+const authRoutes = require('./routes/authRoutes');
 const chatRoutes = require('./routes/chatRoutes');
+const { authMiddleware } = require('./middlewares/authMiddleware');
 
 const app = express();
 
@@ -17,8 +18,8 @@ mongoose.connect(process.env.MONGODB_URI)
 // Utilisez le middleware pour parser les requêtes JSON
 app.use(express.json());
 
-// Utilisez le middleware pour parser les requêtes URL-encoded
-app.use(bodyParser.urlencoded({ extended: true }));
+// Ajoutez le middleware cookie-parser
+app.use(cookieParser());
 
 // Utilisez le middleware CORS
 app.use(cors({
@@ -29,20 +30,15 @@ app.use(cors({
             callback(new Error('Not allowed by CORS'));
         }
     },
+    credentials: true, // Permet d'inclure les cookies dans les requêtes CORS
     optionsSuccessStatus: 200 // Pour certaines configurations de navigateur
 }));
 
 // Utilisez les routes d'authentification (ces routes ne seront pas protégées par authMiddleware)
 app.use('/api', authRoutes);
 
-// Middleware d'authentification
-const authMiddleware = require('./middlewares/authMiddleware');
-
-// Utilisez le middleware d'authentification sur toutes les autres routes
-app.use(authMiddleware);
-
-// Utilisez les autres routes nécessitant une authentification
-app.use('/api/chat', chatRoutes); // Exemple de route protégée
+// Middleware d'authentification pour toutes les autres routes
+app.use('/api/chat', authMiddleware, chatRoutes); // Exemple de route protégée
 
 // Route par défaut pour tester l'accès aux routes publiques
 app.get('/', (req, res) => {
@@ -50,5 +46,5 @@ app.get('/', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-const IP = process.env.IP
+const IP = process.env.IP || '127.0.0.1'; // Ajoutez une valeur par défaut pour IP si non spécifiée
 app.listen(PORT, () => console.log(`Serveur en cours d'exécution sur le port ${IP}:${PORT}`));

@@ -1,4 +1,4 @@
-//frontend/login.html
+// frontend/login.js
 document.getElementById('login-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     const email = document.getElementById('email').value;

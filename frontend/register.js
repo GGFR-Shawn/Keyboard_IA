@@ -1,3 +1,4 @@
+// frontend/register.js
 document.getElementById('register-form').addEventListener('submit', async (event) => {
     event.preventDefault();
     const username = document.getElementById('username').value;

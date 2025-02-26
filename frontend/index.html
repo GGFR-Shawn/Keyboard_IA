@@ -8,25 +8,37 @@
     <link rel="stylesheet" href="styles.css"> <!-- Ajout d'un lien vers le fichier styles.css -->
 </head>
 <body>
-    <div id="message-container"></div>
-    
-    <div class="message user">
+    <div class="container">
+        <h1>Bienvenue sur IA Chat</h1>
         <p>
-            <label for="model-select">Sélectionnez un modèle : </label>
-            <select id="model-select">
-                <option value="mistral-nemo-instruct-2407">Conversationnel</option>
-                <option value="qwen2.5-coder-32b-instruct">Développeur</option>
-                <option value="mathstral-7b-v0.1">Mathématicien</option>
-                <option value="rag-ko-mixtral-7bx2-v2.0-i1">Correcteur/Traducteur</option>
-            </select>
+            Découvrez une interface utilisateur simple et intuitive pour interagir avec différents modèles de conversation IA.
+            Sélectionnez le modèle approprié et engagez-vous dans des conversations enrichissantes.
         </p>
-
         <p>
-            <textarea id="user-input" placeholder="Comment puis-je vous aider ?"></textarea>
-            <button onclick="sendMessage()">Envoyé</button>
+            Notre application offre plusieurs fonctionnalités avancées, telles que la sauvegarde des conversations,
+            les notifications en temps réel grâce aux WebSockets, et le support multilingue pour une expérience utilisateur optimale.
         </p>
+        <div class="button-container">
+            <a href="/register.html" class="btn-register">Inscription</a>
+            <a href="/login.html" class="btn-login">Connexion</a>
+        </div>
     </div>
 
-    <script src="main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const registerButton = document.querySelector('.btn-register');
+            const loginButton = document.querySelector('.btn-login');
+
+            registerButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.location.href = '/register.html';
+            });
+
+            loginButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                window.location.href = '/login.html';
+            });
+        });
+    </script>
 </body>
 </html>

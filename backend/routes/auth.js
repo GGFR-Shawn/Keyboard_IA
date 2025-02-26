@@ -1,8 +1,8 @@
 // routes/auth.js
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcryptjs'); // Pour crypter les mots de passe
-const jwt = require('jsonwebtoken'); // Pour générer des tokens JWT
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User'); // Assurez-vous d'avoir un modèle pour User
 const { body, validationResult } = require('express-validator');
 

@@ -1,53 +1,63 @@
-// backend/controllers/authController.js
 const User = require('../models/User');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
 
-exports.register = async (req, res) => {
-    const { username, email, password } = req.body;
+exports.login = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
-        // Vérifier si l'utilisateur existe déjà
-        const existingUser = await User.findOne({ email });
-        if (existingUser) return res.status(409).json({ message: 'Email déjà utilisé' });
+        const { email, password } = req.body;
 
-        // Créer un nouvel utilisateur
-        const user = new User({ username, email, password });
-        await user.save();
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
 
-        // Générer un jeton JWT
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+        
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 3600000 // 1 heure
-        }).status(201).json({ message: 'Utilisateur créé avec succès' });
+        res.cookie('token', token, { httpOnly: true }).json({ message: 'Login successful' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        console.error('Error logging in:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
-exports.login = async (req, res) => {
-    const { email, password } = req.body;
+exports.register = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
-        // Vérifier si l'utilisateur existe
-        const user = await User.findOne({ email });
-        if (!user) return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+        const { username, email, password } = req.body;
 
-        // Vérifier le mot de passe
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ message: 'Email ou mot de passe incorrect' });
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(409).json({ error: 'User already exists' });
+        }
 
-        // Générer un jeton JWT
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // Create new user object
+        const newUserObject = {
+            username,
+            email,
+            password  // Le mot de passe sera hashé par le middleware dans UserSchema
+        };
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            maxAge: 3600000 // 1 heure
-        }).json({ message: 'Connecté avec succès' });
+        // Create new user
+        const newUser = new User(newUserObject);
+        await newUser.save();
+        res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Erreur serveur' });
+        console.error('Error registering:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };

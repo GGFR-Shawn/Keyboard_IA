@@ -1,3 +1,4 @@
+// frontend/main.js
 const messageContainer = document.getElementById('message-container');
 const userInput = document.getElementById('user-input');
 const modelSelect = document.getElementById('model-select');
