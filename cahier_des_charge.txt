@@ -1,0 +1,216 @@
+### Plan de Développement du Projet
+
+#### 1. Objectif du Projet
+Développer une interface utilisateur simple et intuitive permettant aux utilisateurs d'interagir avec différents modèles de conversation IA en sélectionnant le modèle approprié via des petit bouton.
+
+#### 2. Fonctionnalités Principales
+- **Sélection de Modèle** : Permettre aux utilisateurs de choisir entre plusieurs modèles IA (Conversationnel, Développeur, Mathématicien, Correcteur, Traducteur).
+- **Chat Interface** : Afficher les messages envoyés par l'utilisateur et les réponses générées par le modèle sélectionné.
+- **Authentification JWT** : Sécuriser les requêtes vers le serveur Node.js en utilisant des jetons JSON Web Token (JWT).
+- **Sécurisation des Secrets** : Utiliser des variables d'environnement pour stocker les secrets et éviter de les coder en dur dans le code source.
+- **Animations** : Ajouter des animations pour une expérience utilisateur plus fluide.
+- **Responsive Design** : Optimiser la mise en page pour de meilleurs rendus sur différents appareils.
+- **Sauvegarde des Conversations** : Permettre aux utilisateurs de consulter leur historique.
+- **Notifications en Temps Réel** : Utiliser WebSockets pour améliorer la réactivité des conversations.
+- **Support Multilingue** : Permettre aux utilisateurs de choisir entre plusieurs langues pour l'interface et les messages.
+
+#### 3. Fonctionnalités Secondaires
+- **Gestion des Erreurs** : Afficher des messages d'erreur clairs lorsque la connexion au serveur échoue ou lorsque les données reçues sont invalides.
+- **Émoticônes et Emojis** : Permettre aux utilisateurs d'ajouter des émoticônes dans leurs messages.
+
+#### 4. Spécifications Techniques
+- **Frontend**
+  - Langage : JavaScript (ES6+)
+  - Framework : React.js (utile pour la gestion des états et la création d'une interface utilisateur dynamique)
+  - Bibliothèques : `react-router-dom` pour la navigation, `socket.io-client` pour WebSockets
+- **Backend**
+  - Langage : JavaScript (Node.js)
+  - Framework : Express.js
+  - Middleware : `express-rate-limit`, `jsonwebtoken`, `cors`
+  - Base de Données : MongoDB pour les utilisateurs et l'historique des conversations
+
+#### 5. Étapes de Développement
+
+##### a. Préparation du Projet
+- **Révision du code existant** (si nécessaire)
+- **Définition des fonctionnalités à implémenter**
+
+##### b. Développement Frontend
+1. **Optimisation de l'interface utilisateur**
+   - Création d'un layout responsive avec CSS Flexbox/Grid.
+   - Implémentation des animations avec `react-transition-group` ou `Framer Motion`.
+2. **Ajout des fonctionnalités principales**
+   - Menu déroulant pour la sélection du modèle IA.
+   - Interface de chat avec historique des messages.
+3. **Ajout des fonctionnalités secondaires**
+   - Gestion des erreurs et affichage des messages d'erreur.
+   - Support des émoticônes via `react-emotion-picker` ou similar.
+
+##### c. Développement Backend
+1. **Sécurisation des secrets avec les variables d'environnement**
+   - Utilisation de `dotenv` pour gérer les variables d'environnement.
+2. **Mise en place de la gestion des erreurs et des messages**
+   - Gestion globale des erreurs avec middleware Express.js.
+3. **Intégration de l'authentification JWT**
+   - Implémentation de routes pour inscription, connexion, déconnexion et récupération de mot de passe.
+   - Utilisation de `jsonwebtoken` pour générer et vérifier les tokens JWT.
+4. **Sauvegarde des conversations dans MongoDB**
+   - Création des schémas et modèles nécessaires pour stocker les utilisateurs et leurs conversations.
+5. **Intégration de WebSockets pour les notifications en temps réel**
+   - Utilisation de `socket.io` pour la communication bidirectionnelle entre le client et le serveur.
+
+##### d. Intégration et Tests
+- **Intégration du frontend et backend**
+  - Vérification que toutes les fonctionnalités travaillent ensemble sans problèmes.
+- **Tests unitaires et fonctionnels**
+  - Utilisation de `jest` pour les tests unitaires.
+  - Utilisation de `cypress` ou `puppeteer` pour les tests d'intégration.
+
+##### e. Déploiement
+- **Déploiement sur un serveur en local (ou cloud)**
+  - Utilisation de services comme Heroku, AWS, ou DigitalOcean.
+  - Configuration du domaine et des certificats SSL pour HTTPS.
+
+##### f. Maintenance et Améliorations Continues
+- **Suivi des problèmes signalés par les utilisateurs**
+  - Utilisation d'un outil de suivi de bugs comme Jira ou Trello.
+- **Intégration de nouvelles fonctionnalités en fonction des besoins**
+
+#### 6. Détails des Fonctionnalités
+
+##### a. Authentification et Gestion Utilisateurs
+- Inscription des nouveaux utilisateurs avec vérification par e-mail.
+- Connexion/Déconnexion des utilisateurs.
+- Gestion des profils utilisateurs (modification du mot de passe, modification des informations personnelles).
+- Récupération de mots de passe oubliés.
+
+##### b. Historique des Conversations
+- Stockage des conversations dans une base de données MongoDB.
+- Interface utilisateur pour visualiser les conversations passées.
+- Recherche par mots-clés dans l'historique.
+
+##### c. Personnalisation et Interface Utilisateur Améliorée
+- Personnalisation du thème (couleurs, polices).
+- Options de configuration pour les paramètres d'affichage des messages.
+- Support pour différents langues via bibliothèques comme `i18next`.
+
+##### d. Notifications en Temps Réel
+- Notifications push sur le navigateur via WebSockets.
+- Intégration avec des services d'envoi de messages (ex: SMS, e-mail) pour les utilisateurs enregistrés.
+
+##### e. Analyse et Rapports d'utilisation
+- Tableau de bord avec statistiques sur le nombre de conversations, les modèles utilisés, etc.
+- Génération automatique de rapports d'utilisation via bibliothèques comme `chart.js` ou `react-chartjs-2`.
+
+##### f. Support Multimédia
+- Support pour l'envoi de fichiers (images, vidéos, documents).
+- Prévisualisation des médias directement dans l'interface utilisateur.
+
+Ce plan permet une approche structurée et méthodique du développement du projet, assurant que toutes les fonctionnalités clés soient bien implémentées et testées avant le déploiement.
+
+
+/KEYBOARD_IA
+│
+├── controllers/
+│   └── chatController.js
+├── models/
+├── middleware/
+│   ├── authMiddleware.js
+│   └── rateLimitMiddleware.js
+├── routes/
+│   └── chatRoutes.js
+├── views/
+│   ├── index.html
+│   ├── main.js
+│   └── styles.css
+├── .env
+├── server.js
+└── package.json
+
+
+
+
+
+
+________________________________________old_________________________________________
+1. Objectif du Projet
+Développer une interface utilisateur simple et intuitive permettant aux utilisateurs d'interagir avec différents modèles de conversation IA en sélectionnant le modèle approprié via un menu déroulant.
+2. Fonctionnalités Principales
+Sélection de Modèle : Permettre aux utilisateurs de choisir entre plusieurs modèles IA (Conversationnel, Développeur, Mathématicien, Correcteur/Traducteur).
+Chat Interface : Afficher les messages envoyés par l'utilisateur et les réponses générées par le modèle sélectionné.
+Authentification JWT : Sécuriser les requêtes vers le serveur Node.js en utilisant des jetons JSON Web Token (JWT).
+Sécurisation des Secrets : Utiliser des variables d'environnement pour stocker les secrets et éviter de les coder en dur dans le code source.
+Ajouter des animations pour une expérience utilisateur plus fluide
+Optimiser la mise en page pour de meilleurs rendus sur différents appareils (responsive design)
+Sauvegarder les conversations pour permettre aux utilisateurs de consulter leur historique
+Notifications en Temps Réel :
+Utiliser WebSockets pour améliorer la réactivité des conversations
+Support Multilingue :
+Permettre aux utilisateurs de choisir entre plusieurs langues pour l'interface et les messages
+3. Fonctionnalités Secondaires
+Gestion des Erreurs : Afficher des messages d'erreur clairs lorsque la connexion au serveur échoue ou lorsque les données reçues sont invalides.
+Sécurisation des Secrets : Utiliser des variables d'environnement pour stocker les secrets et éviter de les coder en dur dans le code source.
+Gestion des Émoticônes et Emojis :
+Permettre aux utilisateurs d'ajouter des émoticônes dans leurs messages
+4. Spécifications Techniques
+Frontend :
+Langage : JavaScript (ES6+)
+Framework : Utile?
+Bibliothèques : Aucune bibliothèque supplémentaire nécessaire pour ce projet simple?
+Backend :
+Langage : JavaScript (Node.js)
+Framework : Express.js
+Middleware : express-rate-limit, jsonwebtoken, cors
+Base de Données : mongodb pour les utilisateur, l'historique sauf si tu me propose mieux
+6. Étapes de Développement
+Révision du code existant
+Définition des fonctionnalités à implémenter
+Développement Frontend :
+Optimisation de l'interface utilisateur
+Ajout des fonctionnalités secondaires (gestion des erreurs, etc.)
+Développement Backend :
+Sécurisation des secrets avec les variables d'environnement
+Mise en place de la gestion des erreurs et des messages
+Intégration et Tests :
+Intégration du frontend et backend
+Tests unitaires et fonctionnels
+Déploiement :
+Déploiement sur un serveur en local
+Maintenance et Améliorations Continues :
+Suivi des problèmes signalés par les utilisateurs
+Intégration de nouvelles fonctionnalités en fonction des besoins
+Details fonctionnalités
+1. Authentification et Gestion Utilisateurs
+Description: Ajouter un système d'authentification pour permettre aux utilisateurs de se connecter, s'enregistrer et gérer leurs comptes.
+Fonctionnalités:
+Inscription des nouveaux utilisateurs avec vérification par e-mail.
+Connexion/Déconnexion des utilisateurs.
+Gestion des profils utilisateurs (modification du mot de passe, modification des informations personnelles).
+Récupération de mots de passe oubliés.
+2. Historique des Conversations
+Description: Permettre aux utilisateurs d'enregistrer et de consulter leur historique de conversations avec le chatbot.
+Fonctionnalités:
+Stockage des conversations dans une base de données.
+Interface utilisateur pour visualiser les conversations passées.
+Recherche par mots-clés dans l'historique.
+4. Personnalisation et Interface Utilisateur Améliorée
+Description: Rendre l'interface utilisateur plus conviviale et personnalisable.
+Fonctionnalités:
+Personnalisation du thème (couleurs, polices).
+Options de configuration pour les paramètres d'affichage des messages.
+Support pour différents langues.
+5. Notifications en Temps Réel
+Description: Ajouter un système de notifications pour informer les utilisateurs de nouvelles réponses ou mises à jour du chatbot.
+Fonctionnalités:
+Notifications push sur le navigateur.
+Intégration avec des services d'envoi de messages (ex: SMS, e-mail) pour les utilisateurs enregistrés.
+6. Analyse et Rapports d'utilisation
+Description: Fournir des outils pour analyser l'utilisation du chatbot et générer des rapports.
+Fonctionnalités:
+Tableau de bord avec statistiques sur le nombre de conversations, les modèles utilisés, etc.
+Génération automatique de rapports d'utilisation.
+7. Support Multimédia
+Description: Ajouter la capacité de gérer et de traiter différents types de médias dans les conversations.
+Fonctionnalités:
+Support pour l'envoi de fichiers (images, vidéos, documents).
+Prévisualisation des médias directement dans l'interface utilisateur.

@@ -48,7 +48,6 @@ body {
     white-space: pre-wrap; /* Préserve les espaces et les retours à la ligne */
     overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
     border-radius: 5px;
-    color: #abb2bf; /* Texte Clair sur fond sombre */
 }
 
 textarea {
