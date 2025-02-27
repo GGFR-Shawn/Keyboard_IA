@@ -1,0 +1,21 @@
+// Structure de répertoire :
+/IA-Chat
+├── controllers/
+│   ├── chatController.js
+├── models/
+│   ├── User.js
+│   └── Conversation.js
+├── middleware/
+│   ├── authMiddleware.js
+│   └── rateLimitMiddleware.js
+├── routes/
+│   ├── chatRoutes.js
+│   └── authRoutes.js
+├── views/
+│   ├── index.html
+│   └── main.js
+├── styles/
+│   └── styles.css
+├── .env
+├── package.json
+└── server.js
