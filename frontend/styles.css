@@ -1,77 +1,61 @@
-/* frontend/Styles.css */
-body {
+:root {
+    --bg-dark: #1a1d29;
+    --text-light: #e0def4;
+    --container-bg: #1f2937;
+    --user-bg: #4338ca;
+    --ai-bg: #2dd4bf;
+  }
+  
+  body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #1a1d29; /* Fond sombre */
-    color: #e0def4; /* Texte Clair */
+    background-color: var(--bg-dark);
+    color: var(--text-light);
     margin: 0;
     padding: 0;
-}
-
-#message-container {
+  }
+  
+  #message-container {
     max-width: 800px;
-    margin: auto;
+    margin: 5vh auto;
     padding: 2em;
-    background-color: #1f2937; /* Fond légèrement plus clair */
+    background-color: var(--container-bg);
     border-radius: 16px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: 5vh;
-}
-
-.message {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  
+  .message {
     padding: 0.8em 1.2em;
     border-radius: 8px;
     margin-bottom: 0.8em;
-    position: relative;
-}
-
-.user {
-    background-color: #4338ca; /* Bleu foncé */
-    border: 2px solid #635bff;
-    align-self: flex-end; /* Aligner à droite */
-    text-align: right;
-}
-
-.assistant {
-    background-color: #2dd4bf; /* Turquoise */
-    border: 2px solid #1ecdc4;
-    align-self: flex-start; /* Aligner à gauche */
-    text-align: left;
-}
-
-/* Styles pour les blocs de code */
-.code-block {
-    background-color: #272c35; /* Fond sombre pour le code */
-    border: 1px solid #4d4e56; /* Bordure légèrement plus claire */
-    padding: 1em;
-    margin: 1em 0;
-    font-family: 'Fira Code', 'Courier New', Courier, monospace;
-    white-space: pre-wrap; /* Préserve les espaces et les retours à la ligne */
-    overflow-x: auto; /* Ajoute une barre de défilement horizontale si nécessaire */
-    border-radius: 5px;
-}
-
-textarea {
-    width: calc(100% - 3em);
-    background-color: #4b5563; /* Couleur de la zone d'entrée des messages */
-    color: #d1d5db; /* Texte Clair */
+  }
+  
+  .user { background-color: var(--user-bg); text-align: right; }
+  .ai { background-color: var(--ai-bg); text-align: left; }
+  
+  textarea {
+    width: 100%;
+    background-color: #4b5563;
+    color: #d1d5db;
     border: none;
     padding: 1.2em;
-    margin-bottom: 1em;
-    resize: none;
     border-radius: 8px;
-}
-
-button {
-    background-color: #93c5fd; /* Bleu clair */
-    color: #1a1d29; /* Texte foncé sur fond clair */
-    text-align: center;
-    font-size: 16px;
+    resize: none;
+  }
+  
+  button {
+    background-color: #93c5fd;
+    color: #1a1d29;
     padding: 0.8em 1.5em;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #7dd3fc; /* Bleu plus clair au survol */
-}
+  }
+  
+  button:hover { background-color: #7dd3fc; }
+  
+  @media (max-width: 600px) {
+    #message-container { padding: 1em; max-width: 95%; }
+    textarea { padding: 0.8em; }
+  }
