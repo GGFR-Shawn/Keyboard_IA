@@ -1,4 +1,3 @@
-const fetch = require('node-fetch');
 const mongoose = require('mongoose');
 const Chat = mongoose.model('Chat', new mongoose.Schema({
   userId: String,
@@ -19,6 +18,9 @@ exports.sendMessage = async (req, res) => {
   const userMessage = messages[0].content;
 
   try {
+    // Charger node-fetch dynamiquement
+    const fetch = (await import('node-fetch')).default;
+
     const response = await fetch(process.env.API_URL, {
       method: 'POST',
       headers: {

@@ -4,7 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
-const authRoutes = require('./routes/authRoutes');
+const authRoutes = require('./routes/authRoutes'); // Vérifiez ce chemin
 const chatRoutes = require('./routes/chatRoutes');
 const { authMiddleware } = require('./middlewares/authMiddleware');
 
@@ -21,12 +21,12 @@ requiredEnv.forEach(env => {
 });
 
 // Connexion à MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Middlewares
-app.use(morgan('dev')); // Logging
+app.use(morgan('dev')); // Logging pour voir les requêtes
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
@@ -35,8 +35,13 @@ app.use(cors({
 }));
 
 // Routes
-app.use('/api/auth', authRoutes);
-app.use('/api/chat', authMiddleware, chatRoutes);
+app.use('/api', authRoutes); // Routes d'authentification sous /api
+app.use('/api/chat', authMiddleware, chatRoutes); // Routes de chat protégées
+
+// Route de test
+app.get('/', (req, res) => {
+  res.json({ message: 'Server is running' });
+});
 
 // Gestion des erreurs globales
 app.use((err, req, res, next) => {
@@ -46,5 +51,5 @@ app.use((err, req, res, next) => {
 
 // Démarrage du serveur
 const PORT = process.env.APP_PORT || 3222;
-const IP = process.env.APP_IP || '0.0.0.0'; // Écoute sur toutes les interfaces
+const IP = process.env.APP_IP || '0.0.0.0';
 app.listen(PORT, IP, () => console.log(`Server running on ${IP}:${PORT}`));
